@@ -61,7 +61,7 @@ public class Bot extends TelegramLongPollingBot {
 			String allInfo="Datum des Datensatz: " + new JSONObject(request.getDate()).get("value")+"\n"+
 					"Es gab " + new JSONObject(request.getNewInfection()).get("value")+ " Neuinfektionen in den letzten 24 Stunden."+"\n"+
 					"Die Gesamtcoronainfektionen liegen bei " + new JSONObject(request.getTotalInfection()).get("value")+ " Menschen."+"\n"+
-					 "Der prozentuale Anstieg der letzten 24 Stunden liegt bei "+ new JSONObject(request.getPercenteInfection()).get("Wert") + "%."+"\n"+
+					 "Der prozentuale Anstieg der letzten 24 Stunden liegt bei "+ new JSONObject(request.getPercenteInfection()).get("value") + "%."+"\n"+
 					 "Der Anstieg in den letzten 7 Tagen beträgt "+ new JSONObject(request.getAverageIncreaseDay(7)).get("value")+"\n"+
 					 "Der Inzidenzwert für Deutschland liegt aktuell bei: "+ new JSONObject(request.getRWerthTotalGermany()).get("value")+"\n"+
 					 "Der Ziel-Inzidenzwert ist" + new JSONObject(request.getTotalTargetInfection(35)).get("value") + "."+"\n"+
@@ -77,7 +77,7 @@ public class Bot extends TelegramLongPollingBot {
 					+ " Menschen.";
 		case "/increase":
 			return "Der prozentuale Anstieg der letzten 24 Stunden liegt bei "
-					+ new JSONObject(request.getPercenteInfection()).get("Wert") + "%.";
+					+ new JSONObject(request.getPercenteInfection()).get("value") + "%.";
 		case "/average":
 			return "Der Anstieg in den letzten 7 Tagen beträgt "
 					+ new JSONObject(request.getAverageIncreaseDay(7)).get("value");
