@@ -96,7 +96,7 @@ public class Bot extends TelegramLongPollingBot {
 			return "Es dauert aktuell " + new JSONObject(request.getTargetIncidenceForRWert(35, 7)).get("value")
 					+ "Tage um den Ziel-Inzidenzwert zu erreichen.";
 		default:
-			return "Tut mir leid, diesen Befehl verstehe ich nicht.";
+			return "Commandsize: "+command.length()+" | Command:"+command;
 		}
 	}
 }
