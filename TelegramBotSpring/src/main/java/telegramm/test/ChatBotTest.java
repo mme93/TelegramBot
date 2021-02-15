@@ -18,6 +18,7 @@ import telegramm.test.covidInfo.JhuDataSet;
 import telegramm.test.covidInfo.RKI;
 
 public class ChatBotTest {
+	/*
 	private static Bot testBot;
 	private static CovidRequest covidRequest;
 
@@ -55,4 +56,5 @@ public class ChatBotTest {
 	public void testGetBotToken() {
 		assertEquals(testBot.getBotToken(), "1645650570:AAGIOWNjEgsV_I1c3RNjJTcsliXo5eKQj3E");
 	}
+	*/
 }
