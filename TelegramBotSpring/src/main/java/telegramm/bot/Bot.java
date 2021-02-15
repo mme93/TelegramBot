@@ -57,17 +57,6 @@ public class Bot extends TelegramLongPollingBot {
 
 	public String switchRestToCommand(String command, CovidRequest request) {
 		switch (command) {
-		case "/start":
-		return "Es stehen folgende Befehle zur Verfügung:\r\n"
-				+ "/infection - Gibt die Anzahl der Neuinfektionen innerhalb der letzten 24 Stunden an\r\n"
-				+ "/infected - Gibt die Anzahl der aktuellen Gesamtinfektionen an\r\n"
-				+ "/increase - Gibt den prozentualen Anstieg der Infektionen an\r\n"
-				+ "/average - Gibt den durchschnittlichen Anstieg in den letzten 7 Tagen an\r\n"
-				+ "/incidencevalue - Gibt den aktuellen Inzidenzwert an\r\n"
-				+ "/incidencegoal - Gibt den Ziel-Inzidenzwert an\r\n"
-				+ "/days - Gibt die Dauer bis zum Erreichen des Ziel-Inzidenzwert an\r\n"
-				+ "/date - Gibt das Datum des Datensatzes an\r\n"
-				+ "/showallinfo - Zeigt alle Informationen an";
 		case "/showallinfo":
 			String allInfo = "Datum des Datensatz: " + new JSONObject(request.getDate()).get("value") + "\n" + "Es gab "
 					+ new JSONObject(request.getNewInfection()).get("value")
