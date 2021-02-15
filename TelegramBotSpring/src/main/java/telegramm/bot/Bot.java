@@ -2,6 +2,7 @@ package telegramm.bot;
 
 import javax.annotation.PostConstruct;
 
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -30,7 +31,8 @@ public class Bot extends TelegramLongPollingBot {
 
 		long chatId = update.getMessage().getChatId();
 		String command = update.getMessage().getText();
-		SendMessage message = new SendMessage().setChatId(chatId).setText(this.switchRestToCommand(command, new CovidRequest()));
+		SendMessage message = new SendMessage().setChatId(chatId)
+				.setText(this.switchRestToCommand(command, new CovidRequest()));
 		try {
 			execute(message); // Sending our message object to user
 		} catch (TelegramApiException e) {
@@ -55,20 +57,25 @@ public class Bot extends TelegramLongPollingBot {
 
 	public String switchRestToCommand(String command, CovidRequest request) {
 		switch (command) {
+
 		case "/infection":
-			return "Es gab " + request.getNewInfection() + " Neuinfektionen in den letzten 24 Stunden.";
+			return "Es gab " + new JSONObject(request.getNewInfection()).get("Wert")
+					+ " Neuinfektionen in den letzten 24 Stunden.";
 		case "/infected":
-			return "Die Gesamtcoronainfektionen liegen bei " + request.getTotalInfection() + " Menschen.";
+			return "Die Gesamtcoronainfektionen liegen bei " + new JSONObject(request.getTotalInfection()).get("Wert")
+					+ " Menschen.";
 		case "/increase":
-			return "Der prozentuale Anstieg der letzten 24 Stunden liegt bei " + request.getPercenteInfection() + "%.";
+			return "Der prozentuale Anstieg der letzten 24 Stunden liegt bei "
+					+ new JSONObject(request.getPercenteInfection()).get("Wert") + "%.";
 		case "/average":
-			return "Der Anstieg in den letzten 7 Tagen beträgt " + request.getAverageIncreaseDay(7);
+			return "Der Anstieg in den letzten 7 Tagen beträgt " + new JSONObject(request.getAverageIncreaseDay(7)).get("Wert");
 		case "/incidencevalue":
-			return "Der Inzidenzwert für Deutschland liegt aktuell bei: " + request.getRWerthTotalGermany();
+			return "Der Inzidenzwert für Deutschland liegt aktuell bei: " + new JSONObject(request.getRWerthTotalGermany()).get("Wert");
 		case "/incidencegoal":
-			return "Der Ziel-Inzidenzwert ist" + request.getTotalTargetInfection(35) + ".";
+			return "Der Ziel-Inzidenzwert ist" + new JSONObject(request.getTotalTargetInfection(35)).get("Wert") + ".";
 		case "/days":
-			return "Es dauert aktuell"+request.getTargetIncidenceForRWert(35, 7)+ "Tage um den Ziel-Inzidenzwert zu erreichen.";
+			return "Es dauert aktuell" +new JSONObject(request.getTargetIncidenceForRWert(35, 7)).get("Wert")
+					+ "Tage um den Ziel-Inzidenzwert zu erreichen.";
 		default:
 			return "Tut mir leid, diesen Befehl verstehe ich nicht.";
 		}
