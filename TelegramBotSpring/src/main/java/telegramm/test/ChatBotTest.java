@@ -1,21 +1,6 @@
 package telegramm.test;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import telegramm.bot.Bot;
-import telegramm.httpRequest.CovidRequest;
-import telegramm.test.covidInfo.CalculateCovidNumber;
-import telegramm.test.covidInfo.County;
-import telegramm.test.covidInfo.JHU;
-import telegramm.test.covidInfo.JhuDataSet;
-import telegramm.test.covidInfo.RKI;
 
 public class ChatBotTest {
 	/*
