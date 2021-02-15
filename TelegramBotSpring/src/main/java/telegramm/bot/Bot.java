@@ -60,7 +60,7 @@ public class Bot extends TelegramLongPollingBot {
 		case "/showallinfo":
 			return "Test";
 		case "/date":
-			return "Test";
+			return "Datum des Datensatz: " + new JSONObject(request.getDate()).get("value");
 		case "/infection":
 			return "Es gab " + new JSONObject(request.getNewInfection()).get("value")
 					+ " Neuinfektionen in den letzten 24 Stunden.";
