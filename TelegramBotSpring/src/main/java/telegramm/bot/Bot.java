@@ -58,6 +58,29 @@ public class Bot extends TelegramLongPollingBot {
 	public String switchRestToCommand(String command, CovidRequest request) {
 		switch (command) {
 		case "/showallinfo":
+			return "Test";
+		case "/date":
+			return "Test";
+		case "/infection":
+			return "Test";
+		case "/infected":
+			return "Test";
+		case "/increase":
+			return "Test";
+		case "/average":
+			return "Test";
+		case "/incidencevalue":
+			return "Test";
+		case "/incidencegoal":
+			return "Test";
+		case "/days":
+			return "Test";
+		default:
+			return "Hallo.";
+		}
+		}
+		/*
+		case "/showallinfo":
 			String allInfo="Datum des Datensatz: " + new JSONObject(request.getDate()).get("value")+"\n"+
 					"Es gab " + new JSONObject(request.getNewInfection()).get("value")+ " Neuinfektionen in den letzten 24 Stunden."+"\n"+
 					"Die Gesamtcoronainfektionen liegen bei " + new JSONObject(request.getTotalInfection()).get("value")+ " Menschen."+"\n"+
@@ -92,6 +115,8 @@ public class Bot extends TelegramLongPollingBot {
 		default:
 			return "Tut mir leid, diesen Befehl verstehe ich nicht.";
 		}
-	}
+		}
+		*/
+	
 
 }
