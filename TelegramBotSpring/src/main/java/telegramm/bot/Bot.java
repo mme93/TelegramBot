@@ -65,19 +65,24 @@ public class Bot extends TelegramLongPollingBot {
 			return "Es gab " + new JSONObject(request.getNewInfection()).get("value")
 					+ " Neuinfektionen in den letzten 24 Stunden.";
 		case "/infected":
-			return "Test";
+			return "Die Gesamtcoronainfektionen liegen bei " + new JSONObject(request.getTotalInfection()).get("value")
+					+ " Menschen.";
 		case "/increase":
-			return "Test";
+			return "Der prozentuale Anstieg der letzten 24 Stunden liegt bei "
+					+ new JSONObject(request.getPercenteInfection()).get("value") + "%.";
 		case "/average":
-			return "Test";
+			return "Der Anstieg in den letzten 7 Tagen beträgt "
+					+ new JSONObject(request.getAverageIncreaseDay(7)).get("value");
 		case "/incidencevalue":
-			return "Test";
+			return "Der Inzidenzwert für Deutschland liegt aktuell bei: "
+					+ new JSONObject(request.getRWerthTotalGermany()).get("value");
 		case "/incidencegoal":
-			return "Test";
+			return "Der Ziel-Inzidenzwert ist" + new JSONObject(request.getTotalTargetInfection(35)).get("value") + ".";
 		case "/days":
-			return "Test";
+			return "Es dauert aktuell" + new JSONObject(request.getTargetIncidenceForRWert(35, 7)).get("value")
+					+ "Tage um den Ziel-Inzidenzwert zu erreichen.";
 		default:
-			return "Hallo.";
+			return "Tut mir leid, diesen Befehl verstehe ich nicht.";
 		}
 		}
 		/*
