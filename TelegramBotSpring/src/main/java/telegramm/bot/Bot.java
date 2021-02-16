@@ -17,7 +17,7 @@ import telegramm.saopconsumer.SOAPConnector;
 
 @Component
 public class Bot extends TelegramLongPollingBot {
-
+	SOAPConnector soapConnector;
 	@PostConstruct
 	public void registerBot() {
 		TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
@@ -41,7 +41,7 @@ public class Bot extends TelegramLongPollingBot {
 		} catch (TelegramApiException e) {
 			e.printStackTrace();
 		}
-
+		soapConnector = new SOAPConnector();
 	}
 
 	@Override
@@ -73,7 +73,6 @@ public class Bot extends TelegramLongPollingBot {
 				request.setRValue(35);
 				request.setInfo("/date");
 				request.setNDays(7);
-				SOAPConnector soapConnector = new SOAPConnector();
 				GetCovidResponse response =(GetCovidResponse)soapConnector.callWebService(
 						"https://covidsoap.herokuapp.com/ws/covid;",request
 				) ;
