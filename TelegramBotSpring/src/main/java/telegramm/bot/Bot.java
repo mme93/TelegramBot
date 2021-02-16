@@ -74,15 +74,7 @@ public class Bot extends TelegramLongPollingBot {
 				request.setRValue(35);
 				request.setInfo("/date");
 				request.setNDays(7);
-				WebServiceGatewaySupport webServiceGatewaySupport = new WebServiceGatewaySupport() {
-					@Override
-					protected void initGateway() throws Exception {
-						super.initGateway();
-					}
-				};
-				GetCovidResponse response = (GetCovidResponse)  webServiceGatewaySupport.
-						getWebServiceTemplate().marshalSendAndReceive("https://covidsoap.herokuapp.com/ws/covid;",request);
-				return "Aktuelles Datum: "+response.getCovid().getJsonInfo();
+
 			/*
 				case "/showallinfo":
 				String allInfo = "Datum des Datensatz: " + new JSONObject(request.getDate()).get("value") + "\n" + "Es gab "
