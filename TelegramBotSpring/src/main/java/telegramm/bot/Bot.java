@@ -6,6 +6,7 @@ import generated.GetCovidRequest;
 import generated.GetCovidResponse;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
+import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -73,9 +74,14 @@ public class Bot extends TelegramLongPollingBot {
 				request.setRValue(35);
 				request.setInfo("/date");
 				request.setNDays(7);
-				GetCovidResponse response =(GetCovidResponse)soapConnector.callWebService(
-						"https://covidsoap.herokuapp.com/ws/covid;",request
-				) ;
+				WebServiceGatewaySupport webServiceGatewaySupport = new WebServiceGatewaySupport() {
+					@Override
+					protected void initGateway() throws Exception {
+						super.initGateway();
+					}
+				};
+				GetCovidResponse response = (GetCovidResponse)  webServiceGatewaySupport.
+						getWebServiceTemplate().marshalSendAndReceive("https://covidsoap.herokuapp.com/ws/covid;",request);
 				return "Aktuelles Datum: "+response.getCovid().getJsonInfo();
 			/*
 				case "/showallinfo":
