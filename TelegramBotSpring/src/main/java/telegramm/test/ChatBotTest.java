@@ -2,6 +2,9 @@ package telegramm.test;
 
 
 
+import telegramm.bot.Bot;
+import telegramm.httpRequest.CovidRequest;
+
 public class ChatBotTest {
 	/*
 	private static Bot testBot;
