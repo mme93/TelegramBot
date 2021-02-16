@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import generated.GetCovidRequest;
 import generated.GetCovidResponse;
 import org.json.JSONObject;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -18,7 +19,7 @@ import telegramm.saopconsumer.SOAPConnector;
 
 @Component
 public class Bot extends TelegramLongPollingBot {
-	SOAPConnector soapConnector;
+
 	@PostConstruct
 	public void registerBot() {
 		TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
@@ -36,13 +37,13 @@ public class Bot extends TelegramLongPollingBot {
 		long chatId = update.getMessage().getChatId();
 		String command = update.getMessage().getText();
 		//SendMessage message = new SendMessage().setChatId(chatId).setText(this.switchRestToCommand(command, new CovidRequest()));
-		SendMessage message = new SendMessage().setChatId(chatId).setText(this.switchSoapToCommand(command));
+		SendMessage message = new SendMessage().setChatId(chatId).setText(this.switchSoapToCommand(command, new SOAPConnector()));
 		try {
 			execute(message); // Sending our message object to user
 		} catch (TelegramApiException e) {
 			e.printStackTrace();
 		}
-		soapConnector = new SOAPConnector();
+
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class Bot extends TelegramLongPollingBot {
 		return "1645650570:AAGIOWNjEgsV_I1c3RNjJTcsliXo5eKQj3E";
 	}
 
-	private String switchSoapToCommand(String command) {
+	private String switchSoapToCommand(String command, SOAPConnector soapConnector) {
 		switch (command) {
 			case "/start":
 				return "Es stehen folgende Befehle zur Verfügung:\r\n"
@@ -74,7 +75,24 @@ public class Bot extends TelegramLongPollingBot {
 				request.setRValue(35);
 				request.setInfo("/date");
 				request.setNDays(7);
-
+				CommandLineRunner commandLineRunner = new CommandLineRunner() {
+					@Override
+					public void run(String... args) throws Exception {
+						String name = "Markus";//Default Name
+						if(args.length>0){
+							name = args[0];
+						}
+						GetCovidRequest request = new GetCovidRequest();
+						request.setRValue(35);
+						request.setInfo("/date");
+						request.setNDays(7);
+						GetCovidResponse response =(GetCovidResponse)soapConnector.callWebService(
+								"https://covidsoap.herokuapp.com/ws/covid;",request
+						) ;
+						System.out.println("Got Response As below ========= : MArkusssssss");
+						System.out.println("Info : "+response.getCovid().getJsonInfo());
+					}
+				};
 			/*
 				case "/showallinfo":
 				String allInfo = "Datum des Datensatz: " + new JSONObject(request.getDate()).get("value") + "\n" + "Es gab "
