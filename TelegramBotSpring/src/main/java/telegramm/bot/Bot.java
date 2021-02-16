@@ -6,6 +6,7 @@ import generated.GetCovidRequest;
 import generated.GetCovidResponse;
 import org.json.JSONObject;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -56,6 +57,7 @@ public class Bot extends TelegramLongPollingBot {
 		return "1645650570:AAGIOWNjEgsV_I1c3RNjJTcsliXo5eKQj3E";
 	}
 
+
 	private String switchSoapToCommand(String command, SOAPConnector soapConnector) {
 		switch (command) {
 			case "/start":
@@ -75,6 +77,8 @@ public class Bot extends TelegramLongPollingBot {
 				request.setRValue(35);
 				request.setInfo("/date");
 				request.setNDays(7);
+				String answer="";
+
 				CommandLineRunner commandLineRunner = new CommandLineRunner() {
 					@Override
 					public void run(String... args) throws Exception {
@@ -91,8 +95,15 @@ public class Bot extends TelegramLongPollingBot {
 						) ;
 						System.out.println("Got Response As below ========= : MArkusssssss");
 						System.out.println("Info : "+response.getCovid().getJsonInfo());
+
 					}
 				};
+				try {
+					commandLineRunner.run();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 				return "Hallo";
 			/*
 				case "/showallinfo":
