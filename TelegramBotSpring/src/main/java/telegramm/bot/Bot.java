@@ -93,6 +93,7 @@ public class Bot extends TelegramLongPollingBot {
 						System.out.println("Info : "+response.getCovid().getJsonInfo());
 					}
 				};
+				return "Hallo";
 			/*
 				case "/showallinfo":
 				String allInfo = "Datum des Datensatz: " + new JSONObject(request.getDate()).get("value") + "\n" + "Es gab "
