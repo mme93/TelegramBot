@@ -12,7 +12,7 @@ public class CovidRequest {
 	public String getRWerthTotalGermany() {
 		String messageReceived = "";
 		try {
-			URL url = new URL("https://mycovidservice.herokuapp.com/rWerthTotalGermany");
+			URL url = new URL("https://covidwebservice.herokuapp.com/rValueTotalGermany");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
 			con.setRequestMethod("GET");
@@ -40,10 +40,10 @@ public class CovidRequest {
 		return messageReceived;
 	}
 
-	public String getTotalTargetInfection(int rWerth) {
+	public String getTotalTargetInfection(int rValue) {
 		String messageReceived = "";
 		try {
-			URL url = new URL("https://mycovidservice.herokuapp.com//totalTargetInfection/" + rWerth);
+			URL url = new URL("https://covidwebservice.herokuapp.com/totalTargetInfection/" + rValue);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
 			con.setRequestMethod("GET");
@@ -71,10 +71,10 @@ public class CovidRequest {
 		return messageReceived;
 	}
 
-	public String getTargetIncidenceForRWert(int rWerth, int day) {
+	public String getTargetIncidenceForRWert(int rValue, int day) {
 		String messageReceived = "";
 		try {
-			URL url = new URL("https://mycovidservice.herokuapp.com/targetIncidenceForRWert/" + rWerth + "/" + day);
+			URL url = new URL("https://covidwebservice.herokuapp.com/targetIncidenceForRValue/" + rValue + "/" + day);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
 			con.setRequestMethod("GET");
@@ -105,7 +105,7 @@ public class CovidRequest {
 	public String getAverageIncreaseDay(int day) {
 		String messageReceived = "";
 		try {
-			URL url = new URL("https://mycovidservice.herokuapp.com/averageIncrease/" + day);
+			URL url = new URL("https://covidwebservice.herokuapp.com/averageIncrease/" + day);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
 			con.setRequestMethod("GET");
@@ -136,7 +136,7 @@ public class CovidRequest {
 	public String getPercenteInfection() {
 		String messageReceived = "";
 		try {
-			URL url = new URL("https://mycovidservice.herokuapp.com/percentInfection");
+			URL url = new URL("https://covidwebservice.herokuapp.com/percentInfection");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
 			con.setRequestMethod("GET");
@@ -167,7 +167,7 @@ public class CovidRequest {
 	public String getTotalInfection() {
 		String messageReceived = "";
 		try {
-			URL url = new URL("https://mycovidservice.herokuapp.com/totalInfection");
+			URL url = new URL("https://covidwebservice.herokuapp.com/totalInfection");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
 			con.setRequestMethod("GET");
@@ -198,7 +198,7 @@ public class CovidRequest {
 	public String getNewInfection() {
 		String messageReceived = "";
 		try {
-			URL url = new URL("https://mycovidservice.herokuapp.com/newInfection24");
+			URL url = new URL("https://covidwebservice.herokuapp.com/newInfectionLastDay");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
 			con.setRequestMethod("GET");
