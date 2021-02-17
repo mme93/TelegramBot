@@ -5,10 +5,9 @@ import javax.annotation.PostConstruct;
 import generated.GetCovidRequest;
 import generated.GetCovidResponse;
 import org.json.JSONObject;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -20,6 +19,8 @@ import telegramm.saopconsumer.SOAPConnector;
 
 @Component
 public class Bot extends TelegramLongPollingBot {
+
+	@Autowired SOAPConnector soapConnector;
 
 	@PostConstruct
 	public void registerBot() {
@@ -77,34 +78,10 @@ public class Bot extends TelegramLongPollingBot {
 				request.setRValue(35);
 				request.setInfo("/date");
 				request.setNDays(7);
-				String answer="";
-
-				CommandLineRunner commandLineRunner = new CommandLineRunner() {
-					@Override
-					public void run(String... args) throws Exception {
-						String name = "Markus";//Default Name
-						if(args.length>0){
-							name = args[0];
-						}
-						GetCovidRequest request = new GetCovidRequest();
-						request.setRValue(35);
-						request.setInfo("/date");
-						request.setNDays(7);
-						GetCovidResponse response =(GetCovidResponse)soapConnector.callWebService(
-								"https://covidsoap.herokuapp.com/ws/covid;",request
-						) ;
-						System.out.println("Got Response As below ========= : MArkusssssss");
-						System.out.println("Info : "+response.getCovid().getJsonInfo());
-
-					}
-				};
-				try {
-					commandLineRunner.run();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				return "Hallo";
+				GetCovidResponse response =(GetCovidResponse)soapConnector.callWebService(
+						"https://covidsoap.herokuapp.com/ws/covid;",request
+				) ;
+				return response.getCovid().getJsonInfo();
 			/*
 				case "/showallinfo":
 				String allInfo = "Datum des Datensatz: " + new JSONObject(request.getDate()).get("value") + "\n" + "Es gab "
