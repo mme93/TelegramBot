@@ -92,7 +92,7 @@ public class Bot extends TelegramLongPollingBot {
 							"https://covidsoap.herokuapp.com/ws/covid;",request
 					) ;
 
-					allSoapInfo[0]=new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString();
+					allSoapInfo[0]=new JSONObject(response.getCovid().getJsonInfo()).get("value").toString();
 
 					request = new GetCovidRequest();
 					request.setRValue(35);
@@ -102,7 +102,7 @@ public class Bot extends TelegramLongPollingBot {
 							"https://covidsoap.herokuapp.com/ws/covid;",request
 					) ;
 
-					allSoapInfo[1]=new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString();
+					allSoapInfo[1]=new JSONObject(response.getCovid().getJsonInfo()).get("value").toString();
 
 					request = new GetCovidRequest();
 					request.setRValue(35);
@@ -112,7 +112,7 @@ public class Bot extends TelegramLongPollingBot {
 							"https://covidsoap.herokuapp.com/ws/covid;",request
 					) ;
 
-					allSoapInfo[2]=new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString();
+					allSoapInfo[2]=new JSONObject(response.getCovid().getJsonInfo()).get("value").toString();
 
 					request = new GetCovidRequest();
 					request.setRValue(35);
@@ -122,7 +122,7 @@ public class Bot extends TelegramLongPollingBot {
 							"https://covidsoap.herokuapp.com/ws/covid;",request
 					) ;
 
-					allSoapInfo[3]=new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString();
+					allSoapInfo[3]=new JSONObject(response.getCovid().getJsonInfo()).get("value").toString();
 					request = new GetCovidRequest();
 					request.setRValue(35);
 					request.setInfo("/average");
@@ -131,7 +131,7 @@ public class Bot extends TelegramLongPollingBot {
 							"https://covidsoap.herokuapp.com/ws/covid;",request
 					) ;
 
-					allSoapInfo[4]=new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString();
+					allSoapInfo[4]=new JSONObject(response.getCovid().getJsonInfo()).get("value").toString();
 					request = new GetCovidRequest();
 					request.setRValue(35);
 					request.setInfo("/incidencevalue");
@@ -140,7 +140,7 @@ public class Bot extends TelegramLongPollingBot {
 							"https://covidsoap.herokuapp.com/ws/covid;",request
 					) ;
 
-					allSoapInfo[5]=new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString();
+					allSoapInfo[5]=new JSONObject(response.getCovid().getJsonInfo()).get("value").toString();
 					request = new GetCovidRequest();
 					request.setRValue(35);
 					request.setInfo("/incidencegoal");
@@ -149,7 +149,7 @@ public class Bot extends TelegramLongPollingBot {
 							"https://covidsoap.herokuapp.com/ws/covid;",request
 					) ;
 
-					allSoapInfo[6]=new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString();
+					allSoapInfo[6]=new JSONObject(response.getCovid().getJsonInfo()).get("value").toString();
 					request = new GetCovidRequest();
 					request.setRValue(35);
 					request.setInfo("/days");
@@ -158,7 +158,7 @@ public class Bot extends TelegramLongPollingBot {
 							"https://covidsoap.herokuapp.com/ws/covid;",request
 					) ;
 
-					allSoapInfo[7]=new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString();
+					allSoapInfo[7]=new JSONObject(response.getCovid().getJsonInfo()).get("value").toString();
 
 
 				String allInfo = "Datum des Datensatz: " + allSoapInfo[0] + "\n" + "Es gab "
@@ -184,7 +184,7 @@ public class Bot extends TelegramLongPollingBot {
 				response =(GetCovidResponse)soapConnector.callWebService(
 						"https://covidsoap.herokuapp.com/ws/covid;",request
 				) ;
-				return "Datum des Datensatz: " + new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString();
+				return "Datum des Datensatz: " + new JSONObject(response.getCovid().getJsonInfo()).get("value").toString();
 			case "/infection":
 				request = new GetCovidRequest();
 				request.setRValue(35);
@@ -193,7 +193,7 @@ public class Bot extends TelegramLongPollingBot {
 				response =(GetCovidResponse)soapConnector.callWebService(
 						"https://covidsoap.herokuapp.com/ws/covid;",request
 				) ;
-				return "Es gab " + new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString()
+				return "Es gab " + new JSONObject(response.getCovid().getJsonInfo()).get("value").toString()
 						+ " Neuinfektionen in den letzten 24 Stunden.";
 			case "/infected":
 				request = new GetCovidRequest();
@@ -203,7 +203,7 @@ public class Bot extends TelegramLongPollingBot {
 				response =(GetCovidResponse)soapConnector.callWebService(
 						"https://covidsoap.herokuapp.com/ws/covid;",request
 				) ;
-				return "Die Gesamtcoronainfektionen liegen bei " + new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString()
+				return "Die Gesamtcoronainfektionen liegen bei " + new JSONObject(response.getCovid().getJsonInfo()).get("value").toString()
 						+ " Menschen.";
 			case "/increase":
 				request = new GetCovidRequest();
@@ -214,7 +214,7 @@ public class Bot extends TelegramLongPollingBot {
 						"https://covidsoap.herokuapp.com/ws/covid;",request
 				) ;
 				return "Der prozentuale Anstieg der letzten 24 Stunden liegt bei "
-						+ new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString() + "%.";
+						+ new JSONObject(response.getCovid().getJsonInfo()).get("value").toString() + "%.";
 			case "/average":
 				request = new GetCovidRequest();
 				request.setRValue(35);
@@ -224,7 +224,7 @@ public class Bot extends TelegramLongPollingBot {
 						"https://covidsoap.herokuapp.com/ws/covid;",request
 				) ;
 				return "Der Anstieg in den letzten 7 Tagen beträgt "
-						+ new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString();
+						+ new JSONObject(response.getCovid().getJsonInfo()).get("value").toString();
 			case "/incidencevalue":
 				request = new GetCovidRequest();
 				request.setRValue(35);
@@ -234,7 +234,7 @@ public class Bot extends TelegramLongPollingBot {
 						"https://covidsoap.herokuapp.com/ws/covid;",request
 				) ;
 				return "Der Inzidenzwert für Deutschland liegt aktuell bei: "
-						+ new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString();
+						+ new JSONObject(response.getCovid().getJsonInfo()).get("value").toString();
 			case "/incidencegoal":
 				request = new GetCovidRequest();
 				request.setRValue(35);
@@ -243,7 +243,7 @@ public class Bot extends TelegramLongPollingBot {
 				response =(GetCovidResponse)soapConnector.callWebService(
 						"https://covidsoap.herokuapp.com/ws/covid;",request
 				) ;
-				return "Der Ziel-Inzidenzwert ist " + new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString()
+				return "Der Ziel-Inzidenzwert ist " + new JSONObject(response.getCovid().getJsonInfo()).get("value").toString()
 						+ ".";
 			case "/days":
 				request = new GetCovidRequest();
@@ -254,7 +254,7 @@ public class Bot extends TelegramLongPollingBot {
 						"https://covidsoap.herokuapp.com/ws/covid;",request
 				) ;
 
-				return "Es dauert aktuell " + new JSONObject(response.getCovid().getJsonInfo()).getJSONObject("value").toString()+ "Tage um den Ziel-Inzidenzwert zu erreichen.";
+				return "Es dauert aktuell " + new JSONObject(response.getCovid().getJsonInfo()).get("value").toString()+ "Tage um den Ziel-Inzidenzwert zu erreichen.";
 
 			default:
 				return "Tut mir leid, diesen Befehl verstehe ich nicht.";
