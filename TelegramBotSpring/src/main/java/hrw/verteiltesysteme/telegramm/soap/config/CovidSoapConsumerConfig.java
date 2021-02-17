@@ -1,5 +1,6 @@
-package hrw.verteiltesysteme.telegramm.soap;
+package hrw.verteiltesysteme.telegramm.soap.config;
 
+import hrw.verteiltesysteme.telegramm.soap.SOAPConnector;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;

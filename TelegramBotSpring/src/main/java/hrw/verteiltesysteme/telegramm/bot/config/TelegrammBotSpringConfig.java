@@ -1,4 +1,4 @@
-package hrw.verteiltesysteme.telegramm.soap.config;
+package hrw.verteiltesysteme.telegramm.bot.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
