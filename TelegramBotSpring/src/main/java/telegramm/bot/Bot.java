@@ -35,14 +35,18 @@ public class Bot extends TelegramLongPollingBot {
 
 	@Override
 	public void onUpdateReceived(Update update) {
-
+		SendMessage message;
 		long chatId = update.getMessage().getChatId();
 		String command = update.getMessage().getText();
-		System.err.println(command.substring(0,5));
-		System.err.println(command.substring(5,command.length()));
-		System.err.println("/"+command.substring(5,command.length()));
-		//SendMessage message = new SendMessage().setChatId(chatId).setText(this.switchRestToCommand(command, new CovidRequest()));
-		SendMessage message = new SendMessage().setChatId(chatId).setText(this.switchSoapToCommand(command));
+		if(command.substring(0,5).equals("/soap")){
+			command="/"+command.substring(5,command.length());
+			 message = new SendMessage().setChatId(chatId).setText(this.switchSoapToCommand(command));
+		}else if(command.substring(0,5).equals("/rest")){
+			command="/"+command.substring(5,command.length());
+			 message = new SendMessage().setChatId(chatId).setText(this.switchRestToCommand(command, new CovidRequest()));
+		}else{
+			 message = new SendMessage().setChatId(chatId).setText("Befehl wurde nicht erkannt");
+		}
 		try {
 			execute(message); // Sending our message object to user
 		} catch (TelegramApiException e) {
