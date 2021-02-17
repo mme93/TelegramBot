@@ -1,4 +1,4 @@
-package telegramm.saopconsumer;
+package hrw.verteiltesysteme.telegramm.soap;
 
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 
