@@ -58,7 +58,7 @@ public class Bot extends TelegramLongPollingBot {
 		return "1645650570:AAGIOWNjEgsV_I1c3RNjJTcsliXo5eKQj3E";
 	}
 
-
+	@Bean
 	private String switchSoapToCommand(String command, SOAPConnector soapConnector) {
 		switch (command) {
 			case "/start":
@@ -74,6 +74,7 @@ public class Bot extends TelegramLongPollingBot {
 						+ "/showallinfo - Zeigt alle Informationen an";
 
 			case "/date":
+				System.err.println("Ich versuche zu parsen");
 				GetCovidRequest request = new GetCovidRequest();
 				request.setRValue(35);
 				request.setInfo("/date");
