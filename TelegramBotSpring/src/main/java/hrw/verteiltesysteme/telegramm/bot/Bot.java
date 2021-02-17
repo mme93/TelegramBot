@@ -55,8 +55,13 @@ public class Bot extends TelegramLongPollingBot {
 					+"/soapshowallinfo – zeigt alle informationen an\r\n"
 					+"/soapinfection – gibt die Anzahl der Neuinfektionen in den letzten 24 Stunden an\r\n"
 					+"/soapinfected – gibt die aktuelle Anzahl der Gesamtinfektionen an\r\n"
-					+"/soapincrease - gibt den prozentualen \r\n";
-			message = new SendMessage().setChatId(chatId).setText(startInfo);
+					+"/soapincrease - gibt den prozentualen Anstieg der Infektionen\r\n"
+					+"/soapaverage - gibt den durchschnittlichen Anstieg in den letzten 7 Tagen an\r\n"
+					+"/soapincidencevalue - gibt den aktuellen Inzidenzwert an\r\n"
+					+"/soapincidencegoal - gibt den Ziel-Inzidenzwert an\r\n"
+					+"/soapdays - gibt die Dauer bis zum Erreichen des Ziel-Inzidenzwert an\r\n"
+					+"/soapdate - gibt das Datum des Datensatzes an\r\n";
+					message = new SendMessage().setChatId(chatId).setText(startInfo);
 		}else if(command.substring(0,5).equals("/soap")){
 			command="/"+command.substring(5,command.length());
 			 message = new SendMessage().setChatId(chatId).setText(this.switchSoapToCommand(command));
