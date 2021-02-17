@@ -267,7 +267,7 @@ public class Bot extends TelegramLongPollingBot {
 				response =(GetCovidResponse)soapConnector.callWebService(
 						"https://covidsoap.herokuapp.com/ws/covid;",request
 				) ;
-				return "Der Ziel-Inzidenzwert ist " + new JSONObject(response.getCovid().getJsonInfo()).get("value").toString()
+				return "Die max. Infektionen pro Tag um den Zielinzidenzwert zu erreichen:  " + new JSONObject(response.getCovid().getJsonInfo()).get("value").toString()
 						+ ".";
 			case "/days":
 				request = new GetCovidRequest();
@@ -331,7 +331,7 @@ public class Bot extends TelegramLongPollingBot {
 			return "Der Inzidenzwert für Deutschland liegt aktuell bei: "
 					+ new JSONObject(request.getRWerthTotalGermany()).get("value");
 		case "/incidencegoal":
-			return "Der Ziel-Inzidenzwert ist " + new JSONObject(request.getTotalTargetInfection(35)).get("value")
+			return "Die max. Infektionen pro Tag um den Zielinzidenzwert zu erreichen:  " + new JSONObject(request.getTotalTargetInfection(35)).get("value")
 					+ ".";
 		case "/days":
 			return "Es dauert aktuell " + new JSONObject(request.getTargetIncidenceForRWert(35, 7)).get("value")
