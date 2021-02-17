@@ -1,8 +1,17 @@
 package hrw.verteiltesysteme.telegramm.test;
 
+/*
+import hrw.verteiltesysteme.telegramm.bot.Bot;
+import hrw.verteiltesysteme.telegramm.httpRequest.CovidRequest;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+*/
 public class ChatBotTest {
-	/*
+/*
 	private static Bot testBot;
 	private static CovidRequest covidRequest;
 

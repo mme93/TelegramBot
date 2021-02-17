@@ -7,6 +7,11 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 
+/**
+ *
+ * @author Mithulan Satheskumar und Simone Lohmann
+ *
+ */
 @EnableWs
 @Configuration
 public class CovidSoapConsumerConfig extends WsConfigurerAdapter {

@@ -15,7 +15,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import hrw.verteiltesysteme.telegramm.httpRequest.CovidRequest;
 import hrw.verteiltesysteme.telegramm.soap.SOAPConnector;
-
+/**
+ *
+ * @author Mithulan Satheskumar und Simone Lohmann
+ *
+ */
 @Component
 public class Bot extends TelegramLongPollingBot {
 
@@ -37,7 +41,23 @@ public class Bot extends TelegramLongPollingBot {
 		SendMessage message;
 		long chatId = update.getMessage().getChatId();
 		String command = update.getMessage().getText();
-		if(command.substring(0,5).equals("/soap")){
+		if(command.equals("/start")){
+			String startInfo="Es stehen folgende Befehle zur Verfügung:\r\n"
+					+"/restshowallinfo – zeigt alle informationen an\r\n"
+					+"/restinfection – gibt die Anzahl der Neuinfektionen in den letzten 24 Stunden an\r\n"
+					+"/restinfected – gibt die aktuelle Anzahl der Gesamtinfektionen an\r\n"
+					+"/restincrease - gibt den prozentualen Anstieg der Infektionen\r\n"
+					+"/restaverage - gibt den durchschnittlichen Anstieg in den letzten 7 Tagen an\r\n"
+					+"/restincidencevalue - gibt den aktuellen Inzidenzwert an\r\n"
+					+"/restincidencegoal - gibt den Ziel-Inzidenzwert an\r\n"
+					+"/restdays - gibt die Dauer bis zum Erreichen des Ziel-Inzidenzwert an\r\n"
+					+"/restdate - gibt das Datum des Datensatzes an\r\n"
+					+"/soapshowallinfo – zeigt alle informationen an\r\n"
+					+"/soapinfection – gibt die Anzahl der Neuinfektionen in den letzten 24 Stunden an\r\n"
+					+"/soapinfected – gibt die aktuelle Anzahl der Gesamtinfektionen an\r\n"
+					+"/soapincrease - gibt den prozentualen \r\n";
+			message = new SendMessage().setChatId(chatId).setText(startInfo);
+		}else if(command.substring(0,5).equals("/soap")){
 			command="/"+command.substring(5,command.length());
 			 message = new SendMessage().setChatId(chatId).setText(this.switchSoapToCommand(command));
 		}else if(command.substring(0,5).equals("/rest")){
