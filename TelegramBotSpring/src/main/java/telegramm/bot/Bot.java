@@ -38,6 +38,9 @@ public class Bot extends TelegramLongPollingBot {
 
 		long chatId = update.getMessage().getChatId();
 		String command = update.getMessage().getText();
+		System.err.println(command.substring(0,5));
+		System.err.println(command.substring(5,command.length()));
+		System.err.println("/"+command.substring(5,command.length()));
 		//SendMessage message = new SendMessage().setChatId(chatId).setText(this.switchRestToCommand(command, new CovidRequest()));
 		SendMessage message = new SendMessage().setChatId(chatId).setText(this.switchSoapToCommand(command));
 		try {
@@ -60,6 +63,8 @@ public class Bot extends TelegramLongPollingBot {
 
 
 	private String switchSoapToCommand(String command) {
+		GetCovidRequest request;
+		GetCovidResponse response;
 		switch (command) {
 			case "/start":
 				return "Es stehen folgende Befehle zur Verfügung:\r\n"
@@ -73,56 +78,179 @@ public class Bot extends TelegramLongPollingBot {
 						+ "/date - Gibt das Datum des Datensatzes an\r\n"
 						+ "/showallinfo - Zeigt alle Informationen an";
 
+				case "/showallinfo":
+					String [] allSoapInfo=new String[8];
+					request = new GetCovidRequest();
+					request.setRValue(35);
+					request.setInfo("/date");
+					request.setNDays(7);
+					response =(GetCovidResponse)soapConnector.callWebService(
+							"https://covidsoap.herokuapp.com/ws/covid;",request
+					) ;
+
+					allSoapInfo[0]=response.getCovid().getJsonInfo();
+
+					request = new GetCovidRequest();
+					request.setRValue(35);
+					request.setInfo("/infection");
+					request.setNDays(7);
+					response =(GetCovidResponse)soapConnector.callWebService(
+							"https://covidsoap.herokuapp.com/ws/covid;",request
+					) ;
+
+					allSoapInfo[1]=response.getCovid().getJsonInfo();
+
+					request = new GetCovidRequest();
+					request.setRValue(35);
+					request.setInfo("/infected");
+					request.setNDays(7);
+					response =(GetCovidResponse)soapConnector.callWebService(
+							"https://covidsoap.herokuapp.com/ws/covid;",request
+					) ;
+
+					allSoapInfo[2]=response.getCovid().getJsonInfo();
+
+					request = new GetCovidRequest();
+					request.setRValue(35);
+					request.setInfo("/increase");
+					request.setNDays(7);
+					response =(GetCovidResponse)soapConnector.callWebService(
+							"https://covidsoap.herokuapp.com/ws/covid;",request
+					) ;
+
+					allSoapInfo[3]=response.getCovid().getJsonInfo();
+					request = new GetCovidRequest();
+					request.setRValue(35);
+					request.setInfo("/average");
+					request.setNDays(7);
+					response =(GetCovidResponse)soapConnector.callWebService(
+							"https://covidsoap.herokuapp.com/ws/covid;",request
+					) ;
+
+					allSoapInfo[4]=response.getCovid().getJsonInfo();
+					request = new GetCovidRequest();
+					request.setRValue(35);
+					request.setInfo("/incidencevalue");
+					request.setNDays(7);
+					response =(GetCovidResponse)soapConnector.callWebService(
+							"https://covidsoap.herokuapp.com/ws/covid;",request
+					) ;
+
+					allSoapInfo[5]=response.getCovid().getJsonInfo();
+					request = new GetCovidRequest();
+					request.setRValue(35);
+					request.setInfo("/incidencegoal");
+					request.setNDays(7);
+					response =(GetCovidResponse)soapConnector.callWebService(
+							"https://covidsoap.herokuapp.com/ws/covid;",request
+					) ;
+
+					allSoapInfo[6]=response.getCovid().getJsonInfo();
+					request = new GetCovidRequest();
+					request.setRValue(35);
+					request.setInfo("/days");
+					request.setNDays(7);
+					response =(GetCovidResponse)soapConnector.callWebService(
+							"https://covidsoap.herokuapp.com/ws/covid;",request
+					) ;
+
+					allSoapInfo[7]=response.getCovid().getJsonInfo();
+
+
+				String allInfo = "Datum des Datensatz: " + allSoapInfo[0] + "\n" + "Es gab "
+						+ allSoapInfo[1]
+						+ " Neuinfektionen in den letzten 24 Stunden." + "\n" + "Die Gesamtcoronainfektionen liegen bei "
+						+ allSoapInfo[2]+ " Menschen." + "\n"
+						+ "Der prozentuale Anstieg der letzten 24 Stunden liegt bei "
+						+ allSoapInfo[3]+ "%." + "\n"
+						+ "Der Anstieg in den letzten 7 Tagen beträgt "
+						+ allSoapInfo[4] + "\n"
+						+ "Der Inzidenzwert für Deutschland liegt aktuell bei: "
+						+ allSoapInfo[5]+ "\n" + "Der Ziel-Inzidenzwert ist"
+						+ allSoapInfo[6] + "." + "\n"
+						+ "Es dauert aktuell" + allSoapInfo[7]
+						+ "Tage um den Ziel-Inzidenzwert zu erreichen.";
+				return allInfo;
+
 			case "/date":
-				System.err.println("Ich versuche zu parsen");
-				GetCovidRequest request = new GetCovidRequest();
+				request = new GetCovidRequest();
 				request.setRValue(35);
 				request.setInfo("/date");
 				request.setNDays(7);
-				GetCovidResponse response =(GetCovidResponse)soapConnector.callWebService(
+				response =(GetCovidResponse)soapConnector.callWebService(
 						"https://covidsoap.herokuapp.com/ws/covid;",request
 				) ;
-				return response.getCovid().getJsonInfo();
-			/*
-				case "/showallinfo":
-				String allInfo = "Datum des Datensatz: " + new JSONObject(request.getDate()).get("value") + "\n" + "Es gab "
-						+ new JSONObject(request.getNewInfection()).get("value")
-						+ " Neuinfektionen in den letzten 24 Stunden." + "\n" + "Die Gesamtcoronainfektionen liegen bei "
-						+ new JSONObject(request.getTotalInfection()).get("value") + " Menschen." + "\n"
-						+ "Der prozentuale Anstieg der letzten 24 Stunden liegt bei "
-						+ new JSONObject(request.getPercenteInfection()).get("value") + "%." + "\n"
-						+ "Der Anstieg in den letzten 7 Tagen beträgt "
-						+ new JSONObject(request.getAverageIncreaseDay(7)).get("value") + "\n"
-						+ "Der Inzidenzwert für Deutschland liegt aktuell bei: "
-						+ new JSONObject(request.getRWerthTotalGermany()).get("value") + "\n" + "Der Ziel-Inzidenzwert ist"
-						+ new JSONObject(request.getTotalTargetInfection(35)).get("value") + "." + "\n"
-						+ "Es dauert aktuell" + new JSONObject(request.getTargetIncidenceForRWert(35, 7)).get("value")
-						+ "Tage um den Ziel-Inzidenzwert zu erreichen.";
-				return allInfo;
-			case "/date":
-				return "Datum des Datensatz: " + new JSONObject(request.getDate()).get("value");
+				return "Datum des Datensatz: " + response.getCovid().getJsonInfo();
 			case "/infection":
-				return "Es gab " + new JSONObject(request.getNewInfection()).get("value")
+				request = new GetCovidRequest();
+				request.setRValue(35);
+				request.setInfo("/infection");
+				request.setNDays(7);
+				response =(GetCovidResponse)soapConnector.callWebService(
+						"https://covidsoap.herokuapp.com/ws/covid;",request
+				) ;
+				return "Es gab " + response.getCovid().getJsonInfo()
 						+ " Neuinfektionen in den letzten 24 Stunden.";
 			case "/infected":
-				return "Die Gesamtcoronainfektionen liegen bei " + new JSONObject(request.getTotalInfection()).get("value")
+				request = new GetCovidRequest();
+				request.setRValue(35);
+				request.setInfo("/infected");
+				request.setNDays(7);
+				response =(GetCovidResponse)soapConnector.callWebService(
+						"https://covidsoap.herokuapp.com/ws/covid;",request
+				) ;
+				return "Die Gesamtcoronainfektionen liegen bei " + response.getCovid().getJsonInfo()
 						+ " Menschen.";
 			case "/increase":
+				request = new GetCovidRequest();
+				request.setRValue(35);
+				request.setInfo("/increase");
+				request.setNDays(7);
+				response =(GetCovidResponse)soapConnector.callWebService(
+						"https://covidsoap.herokuapp.com/ws/covid;",request
+				) ;
 				return "Der prozentuale Anstieg der letzten 24 Stunden liegt bei "
-						+ new JSONObject(request.getPercenteInfection()).get("value") + "%.";
+						+ response.getCovid().getJsonInfo() + "%.";
 			case "/average":
+				request = new GetCovidRequest();
+				request.setRValue(35);
+				request.setInfo("/average");
+				request.setNDays(7);
+				response =(GetCovidResponse)soapConnector.callWebService(
+						"https://covidsoap.herokuapp.com/ws/covid;",request
+				) ;
 				return "Der Anstieg in den letzten 7 Tagen beträgt "
-						+ new JSONObject(request.getAverageIncreaseDay(7)).get("value");
+						+ response.getCovid().getJsonInfo();
 			case "/incidencevalue":
+				request = new GetCovidRequest();
+				request.setRValue(35);
+				request.setInfo("/incidencevalue");
+				request.setNDays(7);
+				response =(GetCovidResponse)soapConnector.callWebService(
+						"https://covidsoap.herokuapp.com/ws/covid;",request
+				) ;
 				return "Der Inzidenzwert für Deutschland liegt aktuell bei: "
-						+ new JSONObject(request.getRWerthTotalGermany()).get("value");
+						+ response.getCovid().getJsonInfo();
 			case "/incidencegoal":
-				return "Der Ziel-Inzidenzwert ist " + new JSONObject(request.getTotalTargetInfection(35)).get("value")
+				request = new GetCovidRequest();
+				request.setRValue(35);
+				request.setInfo("/incidencegoal");
+				request.setNDays(7);
+				response =(GetCovidResponse)soapConnector.callWebService(
+						"https://covidsoap.herokuapp.com/ws/covid;",request
+				) ;
+				return "Der Ziel-Inzidenzwert ist " + response.getCovid().getJsonInfo()
 						+ ".";
 			case "/days":
-				return "Es dauert aktuell " + new JSONObject(request.getTargetIncidenceForRWert(35, 7)).get("value")
-						+ "Tage um den Ziel-Inzidenzwert zu erreichen.";
-			*/
+				request = new GetCovidRequest();
+				request.setRValue(35);
+				request.setInfo("/days");
+				request.setNDays(7);
+				response =(GetCovidResponse)soapConnector.callWebService(
+						"https://covidsoap.herokuapp.com/ws/covid;",request
+				) ;
+				return "Es dauert aktuell " + response.getCovid().getJsonInfo()+ "Tage um den Ziel-Inzidenzwert zu erreichen.";
+
 			default:
 				return "Tut mir leid, diesen Befehl verstehe ich nicht.";
 		}
