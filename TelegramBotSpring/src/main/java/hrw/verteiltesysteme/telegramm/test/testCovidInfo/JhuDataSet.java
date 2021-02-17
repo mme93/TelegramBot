@@ -1,5 +1,9 @@
 package hrw.verteiltesysteme.telegramm.test.testCovidInfo;
-
+/**
+ *
+ * @author Markus Meier, Leon Wagner und Leona Cerimi
+ *
+ */
 public class JhuDataSet {
 	String date;
 	int recovered,confirmed,deaths;

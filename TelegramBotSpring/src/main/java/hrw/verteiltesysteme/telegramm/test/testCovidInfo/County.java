@@ -1,5 +1,9 @@
 package hrw.verteiltesysteme.telegramm.test.testCovidInfo;
-
+/**
+ *
+ * @author Markus Meier, Leon Wagner und Leona Cerimi
+ *
+ */
 public class County {
 	private String name;
 	private double rNumber;

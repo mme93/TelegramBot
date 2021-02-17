@@ -3,89 +3,118 @@ package hrw.verteiltesysteme.telegramm.test.testCovidInfo;
 
 import java.util.List;
 
-
+/**
+ *
+ * @author Markus Meier, Leon Wagner und Leona Cerimi
+ *
+ */
 
 public class CalculateCovidNumber {
 	private List<JhuDataSet> germanyInfoJHU;
 	private List<County> countyList;
 
 	public CalculateCovidNumber(List<County> countyList, List<JhuDataSet> germanyInfoJHU) {
-		this.countyList=countyList;
-		this.germanyInfoJHU=germanyInfoJHU;
+		this.countyList = countyList;
+		this.germanyInfoJHU = germanyInfoJHU;
 	}
-	
+	//1a) Neuinfektion in den letzten 24h
 	public int getNewInfectionsLastDayJHU() {
-		JhuDataSet lastday=germanyInfoJHU.get(germanyInfoJHU.size()-1);
-		JhuDataSet dayBeforeLastDay=germanyInfoJHU.get(germanyInfoJHU.size()-2);
-		return lastday.getConfirmed()-dayBeforeLastDay.getConfirmed();
+		JhuDataSet lastday = germanyInfoJHU.get(germanyInfoJHU.size() - 1);
+		JhuDataSet dayBeforeLastDay = germanyInfoJHU.get(germanyInfoJHU.size() - 2);
+		return lastday.getConfirmed() - dayBeforeLastDay.getConfirmed();
 	}
-
+	//1b) Gesamtinfektionen
 	public int getTotalInfectionsJHU() {
-		JhuDataSet lastDay=germanyInfoJHU.get(germanyInfoJHU.size()-1);
-		return lastDay.getConfirmed()-lastDay.getDeaths()-lastDay.getRecovered();
+		JhuDataSet lastDay = germanyInfoJHU.get(germanyInfoJHU.size() - 1);
+		return lastDay.getConfirmed() - lastDay.getDeaths() - lastDay.getRecovered();
 	}
+	//1c) Anstieg der letzten 24h
+	public double getIncreaseLastDayJHU() {
+		JhuDataSet lastday = germanyInfoJHU.get(germanyInfoJHU.size() - 1);
+		JhuDataSet dayBeforeLastDay = germanyInfoJHU.get(germanyInfoJHU.size() - 2);
+		int lastDayInfection=lastday.getConfirmed() - dayBeforeLastDay.getConfirmed();
 
-	public double getIncreaseLasteDayJHU() {
-		JhuDataSet lastday=germanyInfoJHU.get(germanyInfoJHU.size()-1);
-		JhuDataSet dayBeforeLastDay=germanyInfoJHU.get(germanyInfoJHU.size()-2);
-		return 100-(100/new Double(lastday.getConfirmed())*new Double(dayBeforeLastDay.getConfirmed()));
+		JhuDataSet beforeLastday = germanyInfoJHU.get(germanyInfoJHU.size() - 2);
+		JhuDataSet beforeDayBeforeLastDay = germanyInfoJHU.get(germanyInfoJHU.size() - 3);
+		int beforeLastDayInfection=lastday.getConfirmed() - dayBeforeLastDay.getConfirmed();
+
+		return lastDayInfection-beforeLastDayInfection;
 	}
-
+	//1d) Durchschnittlicher Anstieg der letzten n Tage
 	public int getAverageIncreaseDayJHU(int days) {
-		int totalDays=0;
-		for(int i=0;i<days;i++) {
-			totalDays=totalDays+getNewInfectionAtThisDay(i);
+		int totalDays = 0;
+		for (int i = 0; i < days; i++) {
+			totalDays = totalDays + getNewInfectionAtThisDay(i);
 		}
-		return totalDays/days;
+		return totalDays / days;
 	}
+	//Hilfesmethode
 	private int getNewInfectionAtThisDay(int dayIndex) {
-		JhuDataSet lastday=germanyInfoJHU.get(germanyInfoJHU.size()-1-dayIndex);
-		JhuDataSet dayBeforeLastDay=germanyInfoJHU.get(germanyInfoJHU.size()-2-dayIndex);
-		return lastday.getConfirmed()-dayBeforeLastDay.getConfirmed();
+		JhuDataSet lastDay = germanyInfoJHU.get(germanyInfoJHU.size() - 1 - dayIndex);
+		JhuDataSet dayBeforeLastDay = germanyInfoJHU.get(germanyInfoJHU.size() - 2 - dayIndex);
+		return lastDay.getConfirmed() - dayBeforeLastDay.getConfirmed();
 	}
-	public double getRWerthTotalGermanyRKI() {
-		double totalRWerth=0;
-		for(County county:countyList) {
-			totalRWerth=totalRWerth+county.getrNumber();
+	//2a) r-Wert fuer Gesamtdeutschland
+	public double getRValueTotalGermanyRKI() {
+		double totalRValue = 0;
+		for (County county : countyList) {
+			totalRValue = totalRValue + county.getrNumber();
 		}
-		return totalRWerth/countyList.size();
+		return totalRValue / countyList.size();
+	}
+	//2b) Ziel-Gesamtinfektion
+	public double getTotalTargetInfectionRKI(double rGoal) {
+		double actualInfectedPeople = getTotalInfectionsJHU();
+		double rValue = getRValueTotalGermanyRKI();
+		return (actualInfectedPeople / rValue) * rGoal;
+	}
+	//2c) Voraussage ueber die noch notwendigen Tage des Lockdowns bis zur
+	//Erreichung einer definierten Inzidenz (r-Wert)
+	public Double getTargetIncidenceForRValueRKI(double rGoal, int nDay) {
+
+
+		double totalInfection = getTotalInfectionsJHU();
+		double totalTargetInfection = getTotalTargetInfectionRKI(rGoal);
+		double days = (totalInfection - totalTargetInfection) / getNDay(7);
+		return days;
 	}
 
-	public double getTotalTargetInfectionRKI(double rZiel) {
-		double aktuellInfiziertePersonen=getNewInfectionsLastDayJHU();
-		double rWerth=getRWerthTotalGermanyRKI();
-		return (aktuellInfiziertePersonen/rWerth)*rZiel;
-	}
-
-	public Double getTargetIncidenceForRWerthRKI(double rZiel,double totalTargetInfection,int nDay) {
-		JhuDataSet lastday=germanyInfoJHU.get(germanyInfoJHU.size()-1);
-		JhuDataSet dayBeforeLastDay=germanyInfoJHU.get(germanyInfoJHU.size()-2);	
-		
-		double firstNumber=lastday.getConfirmed()-dayBeforeLastDay.getConfirmed();
-		double gesamtAktuell=getTotalInfectionsJHU();
-		double gesamtZiel= getTotalTargetInfectionRKI(35);
-		double tage=(firstNumber-gesamtZiel)/getNDay(7);
-		return tage;
-	}
 	private double getNDay(int nDay) {
-	int dayWert=0;
-		for(int i=0;i<nDay;i++) {
-			JhuDataSet lastday=germanyInfoJHU.get(germanyInfoJHU.size()-1-i);
-			JhuDataSet dayBeforeLastDay=germanyInfoJHU.get(germanyInfoJHU.size()-2-i);	
-			
-			int firstNumber=lastday.getConfirmed()-dayBeforeLastDay.getConfirmed();
-			
-			JhuDataSet lastday2=germanyInfoJHU.get(germanyInfoJHU.size()-2-i);
-			JhuDataSet dayBeforeLastDay2=germanyInfoJHU.get(germanyInfoJHU.size()-3-i);
-			
-			int secondNumber=lastday2.getConfirmed()-dayBeforeLastDay2.getConfirmed();
-			int dif=firstNumber-secondNumber;
-			dayWert=dayWert+dif;
+		int dayCount = 0;
+		for (int i = 0; i < nDay; i++) {
+			JhuDataSet lastday = germanyInfoJHU.get(germanyInfoJHU.size() - 1 - i);
+			JhuDataSet dayBeforeLastDay = germanyInfoJHU.get(germanyInfoJHU.size() - 2 - i);
+
+			int firstInfection = lastday.getConfirmed() - dayBeforeLastDay.getConfirmed();
+
+			JhuDataSet lastday2 = germanyInfoJHU.get(germanyInfoJHU.size() - 2 - i);
+			JhuDataSet dayBeforeLastDay2 = germanyInfoJHU.get(germanyInfoJHU.size() - 3 - i);
+
+			int secondInfection = lastday2.getConfirmed() - dayBeforeLastDay2.getConfirmed();
+			int dif = firstInfection - secondInfection;
+			if(dif<0){
+				dayCount = dayCount + dif;
+			}
 		}
-		if(dayWert<0) {
-			dayWert=dayWert*-1;
+		if (dayCount < 0) {
+			dayCount = dayCount * (-1);
 		}
-		return dayWert/nDay;
+		return dayCount / nDay;
 	}
 
+	public List<JhuDataSet> getGermanyInfoJHU() {
+		return germanyInfoJHU;
+	}
+
+	public void setGermanyInfoJHU(List<JhuDataSet> germanyInfoJHU) {
+		this.germanyInfoJHU = germanyInfoJHU;
+	}
+
+	public List<County> getCountyList() {
+		return countyList;
+	}
+
+	public void setCountyList(List<County> countyList) {
+		this.countyList = countyList;
+	}
 }
