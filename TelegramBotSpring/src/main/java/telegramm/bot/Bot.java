@@ -39,7 +39,7 @@ public class Bot extends TelegramLongPollingBot {
 		long chatId = update.getMessage().getChatId();
 		String command = update.getMessage().getText();
 		//SendMessage message = new SendMessage().setChatId(chatId).setText(this.switchRestToCommand(command, new CovidRequest()));
-		SendMessage message = new SendMessage().setChatId(chatId).setText(this.switchSoapToCommand(command, new SOAPConnector()));
+		SendMessage message = new SendMessage().setChatId(chatId).setText(this.switchSoapToCommand(command));
 		try {
 			execute(message); // Sending our message object to user
 		} catch (TelegramApiException e) {
@@ -58,8 +58,8 @@ public class Bot extends TelegramLongPollingBot {
 		return "1645650570:AAGIOWNjEgsV_I1c3RNjJTcsliXo5eKQj3E";
 	}
 
-	@Bean
-	private String switchSoapToCommand(String command, SOAPConnector soapConnector) {
+
+	private String switchSoapToCommand(String command) {
 		switch (command) {
 			case "/start":
 				return "Es stehen folgende Befehle zur Verfügung:\r\n"
