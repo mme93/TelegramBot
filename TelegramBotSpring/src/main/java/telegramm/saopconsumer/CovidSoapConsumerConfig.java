@@ -20,7 +20,8 @@ public class CovidSoapConsumerConfig extends WsConfigurerAdapter {
     @Bean
     public SOAPConnector soapConnector(Jaxb2Marshaller marshaller) {
         SOAPConnector client = new SOAPConnector();
-        client.setDefaultUri("https://covidsoap.herokuapp.com/ws/covid");
+       // client.setDefaultUri("https://covidsoap.herokuapp.com/ws/covid");
+        client.setDefaultUri("https://covidwebservice.herokuapp.com/ws/covid");
         client.setMarshaller(marshaller);
         client.setUnmarshaller(marshaller);
         return client;
